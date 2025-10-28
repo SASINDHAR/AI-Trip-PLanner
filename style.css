@@ -1,76 +1,36 @@
-* { box-sizing: border-box; }
+async function planTrip() {
+    const destination = document.getElementById('destination').value.trim();
+    const days = parseInt(document.getElementById('days').value.trim());
+    const resultBox = document.getElementById('result');
+    const loading = document.getElementById('loading');
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #00b4db, #0083b0);
-    height: 100vh;
-    margin: 0;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    if (!destination || isNaN(days) || days <= 0) {
+        alert("Please enter valid destination and days!");
+        return;
+    }
+
+    resultBox.style.display = "none";
+    loading.style.display = "block";
+
+    try {
+        const response = await fetch(`/.netlify/functions/aiTrip?destination=${destination}&days=${days}`);
+        if (!response.ok) throw new Error("Network response not ok");
+        const data = await response.json();
+
+        if (!data.plan) throw new Error("AI did not generate a plan");
+
+        // Format the itinerary for readability
+        const formattedPlan = data.plan.split('\n').map(line => {
+            if (line.toLowerCase().includes('day')) return `<h4>${line}</h4>`;
+            return `<p>${line}</p>`;
+        }).join('');
+
+        resultBox.innerHTML = `<h3>🌆 Trip Plan for ${destination}</h3>${formattedPlan}`;
+    } catch (error) {
+        console.error(error);
+        resultBox.innerHTML = `<p style="color:#ffcccb;">⚠️ Oops! Something went wrong: ${error.message}</p>`;
+    }
+
+    loading.style.display = "none";
+    resultBox.style.display = "block";
 }
-
-.container {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    width: 90%;
-    max-width: 450px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-}
-
-h1 { margin-bottom: 5px; font-size: 2em; }
-p { margin-top: 0; opacity: 0.9; }
-
-.form-box input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 10px;
-    border: none;
-    font-size: 16px;
-    outline: none;
-}
-
-button {
-    margin-top: 10px;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 10px;
-    background-color: #fff;
-    color: #333;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-button:hover { background-color: #ffda79; transform: scale(1.05); }
-
-.result-box {
-    margin-top: 20px;
-    text-align: left;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 20px;
-    border-radius: 10px;
-    display: none;
-    font-size: 15px;
-}
-
-.result-box h3 { color: #fff; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px; }
-
-#loading { margin-top: 20px; text-align: center; }
-.spinner {
-    margin: 0 auto;
-    border: 5px solid rgba(255,255,255,0.2);
-    border-top: 5px solid #fff;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-}
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-footer { position: fixed; bottom: 10px; font-size: 13px; text-align: center; opacity: 0.7; }
