@@ -1,88 +1,57 @@
-* {
-  box-sizing: border-box;
-}
+function planTrip() {
+  const destination = document.getElementById('destination').value.trim();
+  const days = parseInt(document.getElementById('days').value.trim());
+  const resultBox = document.getElementById('result');
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #00b4db, #0083b0);
-  height: 100vh;
-  margin: 0;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+  if (!destination || isNaN(days) || days <= 0) {
+    alert("Please enter a valid destination and number of days!");
+    return;
+  }
 
-.container {
-  background: rgba(255, 255, 255, 0.15);
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 450px;
-  text-align: center;
-  backdrop-filter: blur(10px);
-}
+  // Simple AI-like logic (can later connect to real APIs)
+  const hotels = [
+    "Grand Plaza Hotel",
+    "Sunrise Resort & Spa",
+    "Urban Nest Boutique",
+    "Royal Comfort Inn",
+    "Skyline View Suites"
+  ];
 
-h1 {
-  margin-bottom: 5px;
-  font-size: 2em;
-}
+  const activities = [
+    "Visit local attractions and museums.",
+    "Try authentic local food.",
+    "Take a city walking tour or local market visit.",
+    "Relax at a park or beach nearby.",
+    "Enjoy nightlife or cultural shows."
+  ];
 
-p {
-  margin-top: 0;
-  font-size: 1em;
-  opacity: 0.9;
-}
+  const chosenHotel = hotels[Math.floor(Math.random() * hotels.length)];
+  let itinerary = "";
 
-.form-box input {
-  width: 80%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 10px;
-  border: none;
-  font-size: 16px;
-  outline: none;
-}
+  for (let i = 1; i <= days; i++) {
+    const act = activities[Math.floor(Math.random() * activities.length)];
+    itinerary += `<p><strong>Day ${i}:</strong> ${act}</p>`;
+  }
 
-button {
-  margin-top: 10px;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 10px;
-  background-color: #fff;
-  color: #333;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
+  const budget = 200 + days * 80; // rough estimate
 
-button:hover {
-  background-color: #ffda79;
-  transform: scale(1.05);
-}
+  const bestTime = [
+    "March to May – pleasant weather and fewer crowds.",
+    "October to December – great festive vibes.",
+    "June to August – budget-friendly off-season."
+  ];
 
-.result-box {
-  margin-top: 20px;
-  text-align: left;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 20px;
-  border-radius: 10px;
-  display: none;
-  font-size: 15px;
-}
+  const randomBestTime = bestTime[Math.floor(Math.random() * bestTime.length)];
 
-.result-box h3 {
-  color: #fff;
-  border-bottom: 1px solid rgba(255,255,255,0.3);
-  padding-bottom: 5px;
-}
+  resultBox.innerHTML = `
+    <h3>🌆 Trip Plan for ${destination}</h3>
+    <p><strong>🕓 Duration:</strong> ${days} days</p>
+    <p><strong>🏨 Recommended Hotel:</strong> ${chosenHotel}</p>
+    <p><strong>🗓️ Best Time to Visit:</strong> ${randomBestTime}</p>
+    <h4>📅 Itinerary:</h4>
+    ${itinerary}
+    <p><strong>💰 Estimated Budget:</strong> ~$${budget}</p>
+  `;
 
-footer {
-  position: fixed;
-  bottom: 10px;
-  font-size: 13px;
-  text-align: center;
-  opacity: 0.7;
+  resultBox.style.display = "block";
 }
