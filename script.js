@@ -1,28 +1,88 @@
-function planTrip() {
-  const destination = document.getElementById('destination').value.trim();
-  const resultBox = document.getElementById('result');
+* {
+  box-sizing: border-box;
+}
 
-  if (destination === "") {
-    alert("Please enter a destination!");
-    return;
-  }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #00b4db, #0083b0);
+  height: 100vh;
+  margin: 0;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-  // Simulated AI Response (can connect to real API later)
-  const plans = {
-    morning: "Visit local landmarks and enjoy breakfast at a local café.",
-    afternoon: "Explore cultural sites or museums.",
-    evening: "Have dinner with a view and enjoy the city lights.",
-    bestTime: "Best time to visit: March to May for pleasant weather.",
-    budget: "Approximate budget: $500 - $800 for 3 days."
-  };
+.container {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
 
-  resultBox.innerHTML = `
-    <h3>AI Trip Plan for ${destination}</h3>
-    <p><strong>🕓 Best Time:</strong> ${plans.bestTime}</p>
-    <p><strong>🌅 Morning:</strong> ${plans.morning}</p>
-    <p><strong>🏞️ Afternoon:</strong> ${plans.afternoon}</p>
-    <p><strong>🌃 Evening:</strong> ${plans.evening}</p>
-    <p><strong>💰 Budget:</strong> ${plans.budget}</p>
-  `;
-  resultBox.style.display = "block";
+h1 {
+  margin-bottom: 5px;
+  font-size: 2em;
+}
+
+p {
+  margin-top: 0;
+  font-size: 1em;
+  opacity: 0.9;
+}
+
+.form-box input {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #ffda79;
+  transform: scale(1.05);
+}
+
+.result-box {
+  margin-top: 20px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 10px;
+  display: none;
+  font-size: 15px;
+}
+
+.result-box h3 {
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  padding-bottom: 5px;
+}
+
+footer {
+  position: fixed;
+  bottom: 10px;
+  font-size: 13px;
+  text-align: center;
+  opacity: 0.7;
 }
