@@ -14,12 +14,21 @@ async function planTrip() {
 
     try {
         const response = await fetch(`/.netlify/functions/aiTrip?destination=${destination}&days=${days}`);
+        if (!response.ok) throw new Error("Network response not ok");
         const data = await response.json();
 
-        resultBox.innerHTML = `<h3>🌆 Trip Plan for ${destination}</h3><pre>${data.plan}</pre>`;
+        if (!data.plan) throw new Error("AI did not generate a plan");
+
+        // Format the itinerary for readability
+        const formattedPlan = data.plan.split('\n').map(line => {
+            if (line.toLowerCase().includes('day')) return `<h4>${line}</h4>`;
+            return `<p>${line}</p>`;
+        }).join('');
+
+        resultBox.innerHTML = `<h3>🌆 Trip Plan for ${destination}</h3>${formattedPlan}`;
     } catch (error) {
         console.error(error);
-        resultBox.innerHTML = "Error generating AI plan. Try again.";
+        resultBox.innerHTML = `<p style="color:#ffcccb;">⚠️ Oops! Something went wrong: ${error.message}</p>`;
     }
 
     loading.style.display = "none";
