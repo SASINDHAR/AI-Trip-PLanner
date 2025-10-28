@@ -10,11 +10,19 @@
   <div class="container">
     <h1>🌍 TripWise</h1>
     <p>Your Smart AI Travel Buddy</p>
-    <input type="text" id="destination" placeholder="Enter your destination...">
-    <button onclick="planTrip()">Plan My Trip ✈️</button>
+
+    <div class="form-box">
+      <input type="text" id="destination" placeholder="Enter your destination...">
+      <input type="number" id="days" placeholder="Number of days..." min="1" max="30">
+      <button onclick="planTrip()">Generate Trip Plan ✈️</button>
+    </div>
 
     <div id="result" class="result-box"></div>
   </div>
+
+  <footer>
+    <p>© 2025 TripWise AI – Designed by Sasi 🚀</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
